@@ -14,7 +14,7 @@ class Catagory(models.Model):
 
 class Courses(models.Model):
     cname = models.ForeignKey(Catagory, on_delete=models.CASCADE)
-    userid = models.IntegerField(blank=False)
+    userid = models.ManyToManyField(User)
     corname = models.TextField()
     courseid = models.AutoField(primary_key=True)
     cimg = models.ImageField(upload_to='images/')
@@ -24,7 +24,7 @@ class Courses(models.Model):
     cdate = models.DateField(auto_now_add=True)
     dur = models.TextField()
     author = models.TextField()
-    enc = models.IntegerField(default=0)
+    enc = models.BooleanField(default=False)
     crating = models.IntegerField()
     com = models.BooleanField(default=False)
 

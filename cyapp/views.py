@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import login, authenticate, logout
-from .serialzers import Cos,Cod,Te,CtfSerializer
+from .serialzers import Cos,Cod,Te,CtfSerializer,Cat
 from .models import Demo,Coudata,Courses,Catagory,Testq,Ctf,Catctf
 from rest_framework import permissions, status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -55,6 +55,11 @@ def Logout(request):
 @api_view(['GET', 'POST'])
 def course(request):
     if request.method == 'POST':
+        print(request.data.get('cn'))
+        if request.data.get('cn')=='all':
+            m=Courses.objects.all
+            serializer = Cos(m, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         category_name = request.data.get('cn')
         courses = Courses.objects.filter(cname__catname=category_name)
         serializer = Cos(courses, many=True)
@@ -70,15 +75,34 @@ def cod(request,id):
     return Response(s.data)
 
 @api_view(['GET'])
+def cat(request):
+    a=Catagory.objects.all()
+    s=Cat(a,many=True)
+    return Response(s.data)
+
+
+@api_view(['POST'])
+def enroll(request):
+    a=request.data.get('ui')
+    b=request.data.get('ci')
+    c=Courses.objects.get(couseid=b)
+    d=User.objects.get(id=a)
+    c.userid.add(d)
+    c.save()
+    return Response({'s':'done'})
+
+
+@api_view(['GET'])
 def cot(request, id):
     a=Coudata.objects.get(vid=1)
     print(a)
     return
     
+
 @api_view(['GET'])  
 @permission_classes([IsAuthenticated])
 def userhome(request):
-    return Response({'message': 'User is authenticated', 'userid': request.user.username}, status=status.HTTP_200_OK)
+    return Response({'message': 'User is authenticated', 'userid': request.user.id, 'username':request.user.username}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET','POST'])

@@ -31,6 +31,8 @@ urlpatterns = [
      path('ctf/',views.ctf,name='ctf'),
     path('ct<int:id>/<int:id1>/',views.ctf2),
     path('dash<int:id>',views.dash),
+    path('add/',views.enroll),
+    path('cat/',views.cat),
 
    
 ]

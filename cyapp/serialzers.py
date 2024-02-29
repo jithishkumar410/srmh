@@ -19,6 +19,12 @@ class Cat(serializers.ModelSerializer):
         model = Catagory
         fields = '__all__'
 
+
+class Cactf(serializers.ModelSerializer):
+    class Meta:
+        model = Catctf
+        fields = '__all__'
+
 class Cod(serializers.ModelSerializer):
     class Meta:
         model = Coudata

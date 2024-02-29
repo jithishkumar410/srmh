@@ -27,13 +27,19 @@ urlpatterns = [
      path('home/',views.userhome,name="home"),
      path('co/',views.course,name='cos'),
      path('cd<int:id>/', views.cod, name='cd'),
-     path('ts<int:id>/',views.cot,name='cc'),
+     path('ts<int:id>/',views.ts,name='cc'),
      path('ctf/',views.ctf,name='ctf'),
     path('ct<int:id>/<int:id1>/',views.ctf2),
     path('dash<int:id>',views.dash),
     path('add/',views.enroll),
     path('cat/',views.cat),
-
+    path('cot<int:id>/',views.cot),
+    path('cactf/',views.cactf),
+    path('cta<int:id>/',views.ctf3),
+    path('getuc/<str:n>/',views.getuc),
+    path('addc/',views.ccom),
+    path('getcc/<str:n>/',views.getcc),
+    
    
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

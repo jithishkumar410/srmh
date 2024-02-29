@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Difficulty(models.TextChoices):
+        EASY = 'easy', 'Easy'
+        MEDIUM = 'medium', 'Medium'
+        HARD = 'hard', 'Hard'
 class Demo(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
@@ -44,11 +48,11 @@ class Coudata(models.Model):
     vid = models.AutoField(primary_key=True)
     corname = models.ForeignKey(Courses, on_delete=models.CASCADE)
     vhead = models.TextField()
-    vilink = models.TextField()
+    vilink = models.URLField(max_length=300)
     vdes1 = models.TextField()
-    vdes2 = models.TextField()
-    vdes3 = models.TextField()
-    vdes4 = models.TextField()
+    vdes2 = models.TextField(null=True)
+    vdes3 = models.TextField(null=True)
+    vdes4 = models.TextField(null=True)
     vdes5 = models.TextField()
     testid = models.IntegerField()
     userid = models.IntegerField()
@@ -68,12 +72,19 @@ class Ctf(models.Model):
     cif = models.IntegerField() 
     cat = models.ForeignKey(Catctf, on_delete=models.CASCADE)
     cq = models.TextField()
+    caut= models.TextField()
     cdes = models.TextField()
     ch1 = models.TextField()
-    ch2 = models.TextField()
+    ch2 = models.TextField(null=False)
     ans = models.TextField()
     cp=models.IntegerField()
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.ManyToManyField(User)
+    cfile = models.FileField(upload_to='files/')
     com=models.BooleanField(default=False)
+    diff = models.CharField(
+        max_length=10,
+        choices=Difficulty.choices,
+        default=Difficulty.EASY,
+    )
     def __str__(self):
         return self.cq
